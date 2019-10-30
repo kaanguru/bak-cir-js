@@ -28,9 +28,14 @@
         async function basla() {
             await dugmeSakla()
             await konus("Başlıyoruz")
-            let duyulan = await soruSor("kaçıncı kovana bakım yapacaksınız?")
-            let dondurulen = await sayiyaDondur(duyulan)
+            duyulan = await soruSor("kaçıncı kovana bakım yapacaksınız?")
+            dondurulen = await sayiyaDondur(duyulan)
             await BakimSonucunaYaz(dondurulen)
+            await konus(`Kaç arılı çerçeve gördüğünüzü kontrol ediniz? birazdan soracağım`)
+            duyulan = await bekle(soruSor, "kaç arılı çerçeve gördünüz")
+            dondurulen = await sayiyaDondur(duyulan)
+            await BakimSonucunaYaz(dondurulen)
+
         }
 
         function dugmeSakla() {
@@ -40,7 +45,7 @@
         function konus(mesaj) {
             alert(mesaj);
         }
-        function soruSor(soru)  {
+        function soruSor(soru) {
             let duyulan = prompt(soru);
             return duyulan
         }
@@ -55,13 +60,25 @@
             console.log(JSON.stringify(kovanBakimSonucu));
         }
 
+        function timeout(ms) {
+            return new Promise(son => setTimeout(son, ms));
+        }
+        async function bekle(fn, arg) {
+            let saniye = ayarlar.gecikme;
+            let miliSaniye = 1000 * saniye;
+            await timeout(miliSaniye);
+            return fn(arg);
+        }
+
 
         let kovanNo = 1;
         let ayarlar = {
             lisansSayisi: 3,
-            gecikme: 1
+            gecikme: 0.5
         };
         let kovanBakimSonucu = [];
+        let duyulan = 1 ;
+        let dondurulen = 1 ;
 
     </script>
 </body>

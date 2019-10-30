@@ -5,7 +5,7 @@ describe("Ayarlamaları yapmak için uygulama ayarları oluştur ve değiştir",
     it("Lisans değişkenin atanması", function () {
         expect(ayarlar.lisansSayisi).toEqual(3);
     });
-    it("Gecikme ayarının okunması", function () {
+    xit("Gecikme ayarının okunması", function () {
         expect(ayarlar.gecikme).toBe(1);
     });
 
