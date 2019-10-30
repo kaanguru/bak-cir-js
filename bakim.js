@@ -1,6 +1,4 @@
 "use strict";
-export  {basla} ;
-import swal from "sweetalert";
 
 function basla() {
     dugmeSakla();
@@ -15,7 +13,7 @@ function dugmeSakla() {
     document.getElementById('button').style.display = 'none';
 }
 function konus(metin) {
-    swal('Bilge', metin);
+    alert('Bilge', metin);
     return metin;
 }
 function sesAyarla(seviye) {
@@ -44,7 +42,7 @@ function calismayıDurdur(mesaj) {
 }
 function soruSorDuyulanSayiyiDondur(soru) {
     console.log("soruyorum: " + soru)
-    let duyulan = swal('Bilge', soru);
+    let duyulan = promt('Bilge', soru);
     return isFinite(duyulan) ? Number(duyulan) : false;
 }
 // kovanNo
