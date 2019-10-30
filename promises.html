@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>promise</title>
+</head>
+
+<body style="background-color: blanchedalmond;">
+
+
+<script>
+    "use strict";
+    let kovanNo = 1;
+    
+    const basla = new Promise(soruSor)
+        .then(birazBekleyin)
+        .then(tesekkur);
+
+  
+    function soruSor (sonuc) {
+        let kovanNo = prompt("kaçıncı kovanın başındasınız?");
+        sonuc(kovanNo);
+    }
+    function tesekkur (kovanNo) {
+        setTimeout(() => {
+            alert("beklediğiniz için teşekkürler?")
+        }, 3000);
+        console.log(kovanNo)
+    }
+
+    function buFonksiyonuBeklet (fonksiyon, z = 1) {
+        let zaman = 5000 * z
+        setTimeout(fonksiyon, zaman);
+        console.log("bekleme zamanı: " + (zaman / 1000) + " saniye")
+    }
+
+    function birazBekleyin  (kovanNo) {
+        alert(`${kovanNo} nolu kovana bakım başlatıldı.
+        Lütfen biraz bekleyin`);
+        return kovanNo;
+    };
+</script>
+</body>
+
+
+</html>
