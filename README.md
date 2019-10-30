@@ -1,3 +1,3 @@
 # Bakım çırağı 2019 Arıcı
-sadece vanilla js kullanarak prompt ekranından veri toplama ve belki api request
+sadece ECMAScript 2017 kullanarak prompt ekranından veri toplama.
 jasmine ile testleri yazılıyor
