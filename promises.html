@@ -14,12 +14,12 @@
 <script>
     "use strict";
     let kovanNo = 1;
-    
+
     const basla = new Promise(soruSor)
         .then(birazBekleyin)
         .then(tesekkur);
 
-  
+
     function soruSor (sonuc) {
         let kovanNo = prompt("kaçıncı kovanın başındasınız?");
         sonuc(kovanNo);
