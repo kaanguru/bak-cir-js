@@ -7,58 +7,61 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="shortcut icon" type="image/png" href="jasmine/lib/jasmine-3.5.0/jasmine_favicon.png">
     <link rel="stylesheet" type="text/css" href="jasmine/lib/jasmine-3.5.0/jasmine.css">
-    <style>
-        html {
-            background-color: darkolivegreen;
-        }
-
-        .dugme {
-            box-shadow: inset 0px 1px 0px 0px #9acc85;
-            background: linear-gradient(to bottom, #74ad5a 5%, #68a54b 100%);
-            background-color: #74ad5a;
-            border: 1px solid #3b6e22;
-            display: inline-block;
-            cursor: pointer;
-            color: #ffffff;
-            font-family: Arial;
-            font-size: 16px;
-            font-weight: bold;
-            padding: 6px 12px;
-            text-decoration: none;
-        }
-
-        .dugme:hover {
-            background: linear-gradient(to bottom, #68a54b 5%, #74ad5a 100%);
-            background-color: #68a54b;
-        }
-
-        .dugme:active {
-            position: relative;
-            top: 1px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
     <title>Bakım</title>
 </head>
 
 <body style="overflow: visible;">
 
-    <div style="margin: 6rem; text-align: center;">
-        <button type="button" class="dugme" onclick="basla()">Başla!</button>
+    <div style="padding: 6rem; margin: 6rem; text-align: center;">
+        <button type="button" onclick="basla()">Başla!</button>
     </div>
 
     <script type="text/javascript" src="jasmine/lib/jasmine-3.5.0/jasmine.js"></script>
     <script type="text/javascript" src="jasmine/lib/jasmine-3.5.0/jasmine-html.js"></script>
     <script type="text/javascript" src="jasmine/lib/jasmine-3.5.0/boot.js"></script>
     <script src="bakim-test.js"></script>
+
     <script>
         "use strict";
+
+        async function basla() {
+            await dugmeSakla()
+            await konus("Başlıyoruz")
+            let duyulan = await soruSor("kaçıncı kovana bakım yapacaksınız?")
+            let dondurulen = await sayiyaDondur(duyulan)
+            await BakimSonucunaYaz(dondurulen)
+        }
+
+        function dugmeSakla() {
+            document.getElementsByTagName("button")[0].style.display = "none";
+            console.log("düğme saklandı");
+        }
+        function konus(mesaj) {
+            alert(mesaj);
+        }
+        function soruSor(soru)  {
+            let duyulan = prompt(soru);
+            return duyulan
+        }
+        function sayiyaDondur(duyulan) {
+            let dondurulen = isFinite(duyulan) ? Number(duyulan) : false;
+            console.log("dondurulen: " + dondurulen)
+            return dondurulen
+        }
+
+        function BakimSonucunaYaz(dondurulen) {
+            kovanBakimSonucu.push(dondurulen);
+            console.log(JSON.stringify(kovanBakimSonucu));
+        }
+
 
         let kovanNo = 1;
         let ayarlar = {
             lisansSayisi: 3,
             gecikme: 1
         };
-
+        let kovanBakimSonucu = [];
 
     </script>
 </body>
