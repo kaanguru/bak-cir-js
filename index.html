@@ -20,6 +20,7 @@
             <a class="pagename current" href="#">Bilge ARICI</a>
             <a href="./index.html">BAKIM</a>
             <a href="./rapor.html">RAPOR</a>
+            <a href="#ayar" onclick="document.getElementById('ayar').style.display='block'">AYARLAR</a>
         </div>
     </nav>
     <button class="btn-close btn btn-sm">×</button>
@@ -43,6 +44,7 @@
         "use strict";
 
         async function basla() {
+
             await dugmeSakla();
             await konus("Başlıyoruz");
 
@@ -69,6 +71,22 @@
             duyulan = await bekle(onayAl, "Açık Yavru gördünüz mü_?");
             dondurulen = await sayiyaDondur(duyulan);
             await BakimSonucunaYaz(dondurulen);
+
+            duyulan = await bekle(onayAl, "Herhangi bir sorun gördünüz mü_?");
+            dondurulen = await sayiyaDondur(duyulan);
+            await BakimSonucunaYaz(dondurulen);
+
+            if (dondurulen == 1) {
+                dondurulen = await sayiyaDondur(duyulan);
+                await BakimSonucunaYaz(dondurulen);
+                duyulan = await bekle(soruSor, "Ne sorun gördünüz?");
+                await BakimSonucunaYaz(duyulan);
+                await bakimSonuclariniYereleYaz();
+            } else {
+                dondurulen = await sayiyaDondur(duyulan);
+                await BakimSonucunaYaz(dondurulen);
+                await bakimSonuclariniYereleYaz();
+            }
 
         }
 
@@ -109,10 +127,20 @@
         }
         function ayarKaydet(value) {
             let saniye = Number(value)
-            localStorage.setItem( "gecikme", saniye );
+            localStorage.setItem("gecikme", saniye);
             console.log(localStorage.gecikme)
         }
 
+        function bakimSonuclariniYereleYaz() {
+            let i = 0;
+            for (let key in kovanBakimSonucObjesi) {
+
+                kovanBakimSonucObjesi[key] = kovanBakimSonucu[i];
+                i++;
+            }
+            console.table(JSON.stringify(kovanBakimSonucObjesi))
+            localStorage.kovanBakimSonucJsonu = JSON.stringify(kovanBakimSonucObjesi);
+        }
 
         let kovanNo = 1;
         let ayarlar = {
@@ -121,6 +149,16 @@
         };
         ayarlar.gecikme = localStorage.getItem('gecikme');
         let kovanBakimSonucu = [];
+        let kovanBakimSonucObjesi = {
+            "kovanNo": 1,
+            "ariliCerceve": 1,
+            "balliCerceve": 1,
+            "yavruluCerceve": 1,
+            "acikYavruD": 1,
+            "sorunD": 1,
+            "sorun": ""
+        };
+
         let duyulan = 1;
         let dondurulen = 1;
 
