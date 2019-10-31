@@ -1,0 +1,47 @@
+body {
+    font-family: 'Be Vietnam', sans-serif;
+    background-color: #263238;
+    color: #ffecb3;
+}
+
+.grid-container {
+    display: inline-grid;
+    grid-template-columns: 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px;
+    background-color: #87755C;
+    padding: 2px 20px;
+    color: Maroon;
+    text-align: center;
+}
+
+.grid-item {
+    background-color: Linen;
+    border: 2px solid BurlyWood;
+    padding: 125px 10px;
+    font-size: 1rem;
+}
+
+.serbetlik {
+    background-color: HoneyDew;
+}
+
+.balli {
+    background-color: #cc9933;
+}
+
+.arili {
+    border: 5px ridge yellow;
+}
+
+.sorunYok {
+    color: MediumSeaGreen;
+    font-size: 2rem;
+}
+
+.sorunVar {
+    color: #fff;
+    font-size: 2rem;
+}
+
+.ortala {
+    text-align: center;
+}
