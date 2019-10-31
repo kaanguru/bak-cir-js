@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- <link rel="shortcut icon" type="image/png" href="jasmine/lib/jasmine-3.5.0/jasmine_favicon.png">
-    <link rel="stylesheet" type="text/css" href="jasmine/lib/jasmine-3.5.0/jasmine.css"> -->
+
     <link href="https://fonts.googleapis.com/css?family=Be+Vietnam:300,400,500,600&display=swap&subset=latin-ext"
         rel="stylesheet">
     <link rel="stylesheet" href="./entireframework.min.css">
@@ -20,19 +20,24 @@
             <a class="pagename current" href="#">Bilge ARICI</a>
             <a href="./index.html">BAKIM</a>
             <a href="./rapor.html">RAPOR</a>
-            <a href="./ayarlar.html">AYARLAR</a>
         </div>
     </nav>
     <button class="btn-close btn btn-sm">×</button>
 
     <div class="row" style="margin: 6rem 2rem; text-align: center;">
-        <button class="btn smooth" type="button" onclick="basla()" >Başla!</button>
+        <button class="btn smooth" type="button" onclick="basla()">Başla!</button>
+    </div>
+    <div id="ayar" class="row ortala" style="display:none">
+        <h3>Hız Ayarı</h3>
+        Sorular ne sıklıkla sorulsun?
+        <select style="color: white;" onchange="ayarKaydet(this.value)">
+            <option value="0.5">Çok Hızlı</option>
+            <option value="1">Normal</option>
+            <option value="2">Yavaş</option>
+            <option value="3">Çok Yavaş</option>
+        </select>
     </div>
 
-    <!-- <script type="text/javascript" src="jasmine/lib/jasmine-3.5.0/jasmine.js"></script>
-    <script type="text/javascript" src="jasmine/lib/jasmine-3.5.0/jasmine-html.js"></script>
-    <script type="text/javascript" src="jasmine/lib/jasmine-3.5.0/boot.js"></script>
-    <script src="bakim-test.js"></script> -->
 
     <script>
         "use strict";
@@ -102,13 +107,19 @@
             await timeout(miliSaniye);
             return fn(arg);
         }
+        function ayarKaydet(value) {
+            let saniye = Number(value)
+            localStorage.setItem( "gecikme", saniye );
+            console.log(localStorage.gecikme)
+        }
 
 
         let kovanNo = 1;
         let ayarlar = {
             lisansSayisi: 3,
-            gecikme: 0.5
+            gecikme: 0.3
         };
+        ayarlar.gecikme = localStorage.getItem('gecikme');
         let kovanBakimSonucu = [];
         let duyulan = 1;
         let dondurulen = 1;
