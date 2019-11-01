@@ -182,8 +182,11 @@
                 console.log(i);
                 bosKovanCizimi.innerHTML += `<div class="grid-item">${i + 1}</div>`;
             }
-            bosKovanCizimi.innerHTML += `<div class="grid-item serbetlik">S</div>`;
-
+            if ((document.getElementsByClassName("serbetlik")).length > 0) {
+                console.log("zaten serbetlik var")
+            } else {
+                bosKovanCizimi.innerHTML += `<div class="grid-item serbetlik">S</div>`;
+            }
             switch (balliCerceve) {
                 case 0:
                     break;
