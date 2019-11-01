@@ -175,11 +175,35 @@
             console.log(cerceveSayisi + " adet çerçeve var");
             console.log(yavruluCerceve + " adet yavrulu");
             console.log(ariliCerceve + " adet arılı");
+            console.log(balliCerceve + " adet ballı");
+
+            let bosKovanCizimi = document.getElementById("kovanCizim")
             for (let i = 0; i < cerceveSayisi; i++) {
                 console.log(i);
-                document.getElementById("kovanCizim").innerHTML += `<div class="grid-item">${i+1}</div>`;
+                bosKovanCizimi.innerHTML += `<div class="grid-item">${i + 1}</div>`;
             }
-            document.getElementById("kovanCizim").innerHTML += `<div class="grid-item serbetlik">S</div>`;
+            bosKovanCizimi.innerHTML += `<div class="grid-item serbetlik">S</div>`;
+
+            switch (balliCerceve) {
+                case 0:
+                    break;
+                case 1:
+                    bosKovanCizimi.firstElementChild.classList.add("balli");
+                    break;
+                case 2:
+                    bosKovanCizimi.firstElementChild.classList.add("balli");
+                    bosKovanCizimi.lastElementChild.classList.add("balli");
+                    break;
+                case 3:
+                    bosKovanCizimi.firstElementChild.classList.add("balli");
+                    bosKovanCizimi.children[1].classList.add("balli");
+                    bosKovanCizimi.lastElementChild.classList.add("balli");
+                    break;
+                default:
+                    for (let i = 0; i < balliCerceve; i++) {
+                        bosKovanCizimi.children[i].classList.add("balli");
+                    }
+            }
         }
         function anaDurumGoster(durum) {
             let normal = document.getElementById("anaDurumAlani").classList.add("sorunYok");
