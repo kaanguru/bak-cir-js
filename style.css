@@ -38,8 +38,9 @@ body {
 }
 
 .sorunVar {
-    color: #fff;
+    color: #ff0000;
     font-size: 2rem;
+    background-color: aliceblue;
 }
 
 .ortala {

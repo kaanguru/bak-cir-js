@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link href="https://fonts.googleapis.com/css?family=Be+Vietnam:300,400,500,600&display=swap&subset=latin-ext"
-        rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Be+Vietnam:500&display=swap&subset=latin-ext" rel="stylesheet"> -->
     <link rel="stylesheet" href="./entireframework.min.css">
     <link rel="stylesheet" href="./style.css">
 
@@ -19,14 +18,14 @@
         <div class="container">
             <a class="pagename current" href="#">Bilge ARICI</a>
             <a href="./index.html">BAKIM</a>
-            <a href="./rapor.html">RAPOR</a>
+            <a href="#rapor" onclick="raporOlustur()">RAPOR</a>
             <a href="#ayar" onclick="document.getElementById('ayar').style.display='block'">AYARLAR</a>
         </div>
     </nav>
     <button class="btn-close btn btn-sm">×</button>
 
     <div class="row" style="margin: 6rem 2rem; text-align: center;">
-        <button class="btn smooth" type="button" onclick="basla()">Başla!</button>
+        <button class="btn smooth" type="button" onclick="bakimaBasla()">Başla!</button>
     </div>
     <div id="ayar" class="row ortala" style="display:none">
         <h3>Hız Ayarı</h3>
@@ -39,11 +38,25 @@
         </select>
     </div>
 
+    <div id="rapor" class="row" style="display:none">
+        <div class="col c12" style="text-align: center;">
+            <h3>Kovan no: <div id="kovanNoAlani"></div> Son bakım sonuçları</h3>
+            <p><i id="anaDurumAlani" class="sorunYok ico"> ♛ </i>
+                <div id="kovanCizim" class="grid-container">
+
+                </div>
+
+        </div>
+        <div id="yavruDurumAlani" class="col c12 ortala sorunVar"> </div>
+        <div id="sorunAlani" class="col c12 ortala sorunVar"> </div>
+
+    </div>
+
 
     <script>
         "use strict";
 
-        async function basla() {
+        async function bakimaBasla() {
 
             await dugmeSakla();
             await konus("Başlıyoruz");
@@ -82,11 +95,14 @@
                 duyulan = await bekle(soruSor, "Ne sorun gördünüz?");
                 await BakimSonucunaYaz(duyulan);
                 await bakimSonuclariniYereleYaz();
+                raporOlustur();
             } else {
                 dondurulen = await sayiyaDondur(duyulan);
                 await BakimSonucunaYaz(dondurulen);
                 await bakimSonuclariniYereleYaz();
+                raporOlustur();
             }
+
 
         }
 
@@ -134,12 +150,45 @@
         function bakimSonuclariniYereleYaz() {
             let i = 0;
             for (let key in kovanBakimSonucObjesi) {
-
                 kovanBakimSonucObjesi[key] = kovanBakimSonucu[i];
                 i++;
             }
+            kovanBakimSonucObjesi.sorun = kovanBakimSonucu[i];
             console.table(JSON.stringify(kovanBakimSonucObjesi))
             localStorage.kovanBakimSonucJsonu = JSON.stringify(kovanBakimSonucObjesi);
+        }
+
+        function raporOlustur() {
+            document.getElementById('rapor').style.display = 'block';
+            let keys = Object.keys(localStorage);
+            localStorage.getItem(keys[0])
+            let sonSonuc = JSON.parse(localStorage.getItem(keys[0]), null, 2);
+            console.table(sonSonuc);
+            document.getElementById("kovanNoAlani").innerHTML = sonSonuc.kovanNo;
+            anaDurumGoster(sonSonuc.acikYavruD);
+            (sonSonuc.ariliCerceve < sonSonuc.yavruluCerceve) ? document.getElementById("yavruDurumAlani").innerHTML = `<p>Arı nufusu yetersiz. Yavrular Tehlikede</p>` : document.getElementById("yavruDurumAlani").classList.add("sorunYok");
+            (sonSonuc.sorunD) ? document.getElementById("sorunAlani").innerHTML = `<p><b>Sorun:</b> ${sonSonuc.sorun}</p>` : document.getElementById("sorunAlani").classList.add("sorunYok");
+            kovanGrafigiCiz(sonSonuc.yavruluCerceve, sonSonuc.balliCerceve, sonSonuc.ariliCerceve);
+        }
+        function kovanGrafigiCiz(yavruluCerceve, balliCerceve, ariliCerceve) {
+            let cerceveSayisi = (Number(yavruluCerceve) + Number(balliCerceve));
+            console.log(cerceveSayisi + " adet çerçeve var");
+            console.log(yavruluCerceve + " adet yavrulu");
+            console.log(ariliCerceve + " adet arılı");
+            for (let i = 0; i < cerceveSayisi; i++) {
+                console.log(i);
+                document.getElementById("kovanCizim").innerHTML += `<div class="grid-item">${i}</div>`;
+            }
+            document.getElementById("kovanCizim").innerHTML += `<div class="grid-item serbetlik">S</div>`;
+        }
+        function anaDurumGoster(durum) {
+            let normal = document.getElementById("anaDurumAlani").classList.add("sorunYok");
+            let sorun = () => {
+                document.getElementById("anaDurumAlani").classList.remove("sorunYok")
+                document.getElementById("anaDurumAlani").classList.add("sorunVar")
+                document.getElementById("anaDurumAlani").innerHTML = " ♛ Açık yavru görülmedi"
+            }
+            (durum) ? normal : sorun;
         }
 
         let kovanNo = 1;
@@ -156,7 +205,7 @@
             "yavruluCerceve": 1,
             "acikYavruD": 1,
             "sorunD": 1,
-            "sorun": ""
+            "sorun": " ",
         };
 
         let duyulan = 1;
